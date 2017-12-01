@@ -1,5 +1,9 @@
 //Grabbing data from keys.js file
-var twitterKey = require("./keys.js");
+var keys = require("./keys.js");
+// var spotifyKey = require("./keys.js");
+// console.log(keys);
+
+
 
 
 //Represents prompt entered into terminal, after 'node liri.js' - Options are "movie-this, spotify-this-song, my-tweets"
@@ -48,14 +52,26 @@ function twitter() {
     var fs = require("fs");
     // var twitterKey = require("./keys.js");
     var Twitter = require("twitter");
-    var client = new Twitter(twitterKey.twitterKeys);
+    var client = new Twitter(keys.twitter);
     var params = { screen_name: "flacomiz5", count: 20 };
     client.get('statuses/user_timeline', params, function(error, tweets, response) {
-        if (!error && response.statusCode === 200) {
-            return console.log("Here are the most recent tweets from Michael");
+
+        if (!error) {
+            console.log("Here are the most recent tweets");
+
+            for (var i = 0; i < tweets.length; i++) {
+
+                console.log("_____________________________________________");
+                console.log("Tweeted on: " + tweets[i].created_at);
+                console.log(tweets[i].text);
+
+            }
         }
-    });
-};
+        // return console.log("Here are the most recent tweets from Michael");
+
+    })
+}
+
 
 //=============================================================================================================================================================================
 
@@ -73,20 +89,25 @@ function omdb() {
 //=============================================================================================================================================================================
 
 //SPOTIFY
+
+
 function Spotify() {
+    var fs = require("fs");
     var Spotify = require('node-spotify-api');
-    var spotifyKey = require("./keys.js");
-    var spotify = new Spotify({
-        id: '6869f814db454d34a34ce5fa771679fb',
-        secret: 'a54eea76080c488dae14e45bcb10703e'
-    });
+    var spotify = new Spotify(keys.spotify);
+
+    console.log(JSON.stringify())
+
+
+
 
     spotify
-        .search({ type: 'artist', query: 'Jimi Hendrix' })
+        .search({ type: 'track', query: 'Encore' })
         .then(function(response) {
-            console.log(response);
+            console.log(JSON.stringify(response, null, 10));
         })
         .catch(function(err) {
+            console.log("test");
             console.log(err);
         });
 }
